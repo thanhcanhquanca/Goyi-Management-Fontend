@@ -1,0 +1,225 @@
+import React from "react";
+import {
+    Box,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Divider,
+    Paper,
+    Typography,
+    Tooltip,
+} from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
+import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
+import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
+import HistoryIcon from "@mui/icons-material/History";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import PlaylistPlayIcon from "@mui/icons-material/PlaylistPlay";
+import WatchLaterIcon from "@mui/icons-material/WatchLater";
+import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
+import SettingsIcon from "@mui/icons-material/Settings";
+import HelpIcon from "@mui/icons-material/Help";
+import FeedbackIcon from "@mui/icons-material/Feedback";
+import ReportIcon from "@mui/icons-material/Report";
+import MovieIcon from "@mui/icons-material/Movie";
+import MusicNoteIcon from "@mui/icons-material/MusicNote";
+import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
+import SchoolIcon from "@mui/icons-material/School";
+import FastfoodIcon from "@mui/icons-material/Fastfood";
+import TravelExploreIcon from "@mui/icons-material/TravelExplore";
+import SportsIcon from "@mui/icons-material/Sports";
+import FaceIcon from "@mui/icons-material/Face";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import Diversity3Icon from "@mui/icons-material/Diversity3";
+import MovieFilterIcon from "@mui/icons-material/MovieFilter";
+import { useNavigate, useLocation } from "react-router-dom";
+
+// Define the NAVIGATION array
+const NAVIGATION = [
+    { segment: "", title: "Trang chủ", icon: <HomeIcon /> },
+    { segment: "shorts", title: "Short", icon: <OndemandVideoIcon /> },
+    { segment: "subscriptions", title: "Kênh đăng ký", icon: <SubscriptionsIcon /> },
+    { segment: "user-post", title: "Bài Đăng", icon: <VideoLibraryIcon /> },
+    { section: "Bạn" },
+    { segment: "history", title: "Video đã xem", icon: <HistoryIcon /> },
+    { segment: "liked-videos", title: "Video đã thích", icon: <ThumbUpIcon /> },
+    { segment: "playlists", title: "Danh sách phát", icon: <PlaylistPlayIcon /> },
+    { segment: "watch-later", title: "Xem sau", icon: <WatchLaterIcon /> },
+    { segment: "your-videos", title: "Video của bạn", icon: <VideoLibraryIcon /> },
+    { section: "Kênh nội dung" },
+    { segment: "movies", title: "Phim & Truyền hình", icon: <MovieFilterIcon /> },
+    { segment: "anime", title: "Anime & Manga", icon: <MovieIcon /> },
+    { segment: "music", title: "Âm nhạc", icon: <MusicNoteIcon /> },
+    { segment: "tech", title: "Công nghệ", icon: <VideoLibraryIcon /> },
+    { segment: "gaming", title: "Trò chơi", icon: <SportsEsportsIcon /> },
+    { segment: "education", title: "Giáo dục & Học tập", icon: <SchoolIcon /> },
+    { segment: "food", title: "Ẩm thực & Nấu ăn", icon: <FastfoodIcon /> },
+    { segment: "travel", title: "Du lịch & Văn hóa", icon: <TravelExploreIcon /> },
+    { segment: "sports", title: "Thể thao", icon: <SportsIcon /> },
+    { segment: "beauty", title: "Làm đẹp & Thời trang", icon: <FaceIcon /> },
+    { segment: "finance", title: "Tài chính & Đầu tư", icon: <MonetizationOnIcon /> },
+    { segment: "lifestyle", title: "Xã hội & Đời sống", icon: <Diversity3Icon /> },
+    { section: "Khác" },
+    { segment: "settings", title: "Cài đặt", icon: <SettingsIcon /> },
+    { segment: "report-log", title: "Nhật ký báo cáo", icon: <ReportIcon /> },
+    { segment: "help", title: "Trợ giúp", icon: <HelpIcon /> },
+    { segment: "feedback", title: "Ý kiến phản hồi", icon: <FeedbackIcon /> },
+];
+
+function SideBar({ sidebarOpen }) {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    // Handle navigation on item click
+    const handleItemClick = (segment) => {
+        navigate(`/home${segment ? `/${segment}` : ""}`);
+    };
+
+    return (
+        <Box
+            sx={{
+                width: sidebarOpen ? "13%" : "0%",
+                minWidth: sidebarOpen ? "180px" : "0px",
+                backgroundColor: "#f0f0f0",
+                height: "100vh",
+                overflowY: "auto",
+                transition: "width 0.3s ease-in-out, min-width 0.3s ease-in-out",
+                "&::-webkit-scrollbar": { width: "6px", display: "none" },
+                "&::-webkit-scrollbar-thumb": { backgroundColor: "#888", borderRadius: "4px" },
+                "&::-webkit-scrollbar-thumb:hover": { backgroundColor: "#555" },
+                scrollbarWidth: "none",
+                "&:hover": {
+                    "&::-webkit-scrollbar": { display: sidebarOpen ? "block" : "none" },
+                    scrollbarWidth: sidebarOpen ? "thin" : "none",
+                    scrollbarColor: sidebarOpen ? "#888 #f0f0f0" : "transparent",
+                },
+            }}
+        >
+            {sidebarOpen && (
+                <Paper sx={{ minHeight: "100%", display: "flex", flexDirection: "column", p: 1 }}>
+                    <List>
+                        {NAVIGATION.map((item, index) => {
+                            if (item.section) {
+                                return (
+                                    <React.Fragment key={index}>
+                                        <Divider sx={{ my: 1 }} />
+                                        <Typography
+                                            variant="subtitle2"
+                                            sx={{ px: 2, py: 1, fontSize: 14 }}
+                                        >
+                                            {item.section}
+                                        </Typography>
+                                    </React.Fragment>
+                                );
+                            }
+
+                            const isActive =
+                                location.pathname ===
+                                `/home${item.segment ? `/${item.segment}` : ""}`;
+
+                            return (
+                                <Tooltip
+                                    key={index}
+                                    title={item.title}
+                                    placement="right"
+                                    arrow
+                                    disableHoverListener={sidebarOpen}
+                                >
+                                    <ListItem
+                                        button
+                                        onClick={() => handleItemClick(item.segment)}
+                                        sx={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            alignItems: "center",
+                                            py: 1,
+                                            pl: 2,
+                                            justifyContent: "flex-start",
+                                            transition: "all 0.2s ease-in-out",
+                                            backgroundColor: isActive
+                                                ? "#e0e0e0" // Light gray for active state
+                                                : "transparent",
+                                            color: isActive ? "#000" : "",
+                                            "&:hover": {
+                                                backgroundColor: isActive
+                                                    ? "#e0e0e0" // Keep light gray on hover when active
+                                                    : "rgba(0,0,0,0.04)",
+                                                "& .MuiListItemIcon-root": {
+                                                    transform: "scale(1.1)",
+                                                    color: isActive ? "#000" : "#202020",
+                                                    "& svg": {
+                                                        filter: isActive
+                                                            ? "drop-shadow(0 0 6px rgba(0,0,0,0.2))"
+                                                            : "drop-shadow(0 0 4px rgba(25,118,210,0.5))",
+                                                    },
+                                                },
+                                            },
+                                        }}
+                                    >
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: "32px",
+                                                color: isActive ? "#000" : "#444",
+                                                transition:
+                                                    "transform 0.2s ease-in-out, color 0.2s ease-in-out, box-shadow 0.2s ease-in-out",
+                                                "& svg": {
+                                                    filter: isActive
+                                                        ? "drop-shadow(0 0 6px rgba(0,0,0,0.2))"
+                                                        : "drop-shadow(0 0 2px rgba(0,0,0,0.2))",
+                                                },
+                                            }}
+                                        >
+                                            {item.icon}
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primary={item.title}
+                                            primaryTypographyProps={{
+                                                fontSize: 14,
+                                                fontWeight: isActive ? "bold" : "normal",
+                                                whiteSpace: "nowrap",
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis",
+                                            }}
+                                            sx={{
+                                                color: isActive ? "#000" : "black",
+                                            }}
+                                        />
+                                    </ListItem>
+                                </Tooltip>
+                            );
+                        })}
+                    </List>
+
+                    {/* Copyright information */}
+                    <Divider sx={{ my: 1 }} />
+                    <Typography variant="subtitle2" sx={{ px: 2, py: 1, fontSize: 14 }}>
+                        Thông tin bản quyền
+                    </Typography>
+                    <Typography
+                        variant="caption"
+                        sx={{
+                            px: 2,
+                            py: 1,
+                            color: "#777",
+                            fontSize: 12,
+                            textAlign: "center",
+                            overflow: "hidden",
+                            mb: "140px",
+                            textOverflow: "ellipsis",
+                        }}
+                    >
+                        © 2025 Goyi Corporation - Công ty Công nghệ Sáng tạo Toàn cầu. Mọi quyền sở hữu trí
+                        tuệ, bao gồm nhưng không giới hạn ở nội dung, thiết kế và mã nguồn, đều được bảo lưu
+                        toàn cầu. Địa chỉ trụ sở chính: Tòa nhà Goyi Tower, Số 123 Đường Sáng Tạo, Quận 1,
+                        Thành phố Hồ Chí Minh, Việt Nam. Vui lòng liên hệ qua email support@goyi.com để được
+                        hỗ trợ hoặc khiếu nại. Chúng tôi cam kết mang đến trải nghiệm tốt nhất cho người dùng
+                        với sự đổi mới không ngừng.
+                    </Typography>
+                </Paper>
+            )}
+        </Box>
+    );
+}
+
+export default SideBar;
