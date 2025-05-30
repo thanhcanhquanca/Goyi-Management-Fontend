@@ -1,0 +1,135 @@
+import React from 'react';
+import {
+    Box,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Divider,
+    Tooltip
+} from '@mui/material';
+import { useNavigate, useLocation } from 'react-router-dom';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import LayersIcon from '@mui/icons-material/Layers';
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import SettingsIcon from "@mui/icons-material/Settings";
+import TuneIcon from "@mui/icons-material/Tune";
+import VideocamIcon from "@mui/icons-material/Videocam";
+import CopyrightIcon from "@mui/icons-material/Copyright";
+import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
+
+const NAVIGATION = [
+    { segment: 'dashboard', title: 'Tổng quan', icon: <DashboardIcon /> },
+    { segment: 'orders', title: 'Nội dung', icon: <VideoLibraryIcon /> },
+    { kind: 'divider' },
+    { segment: 'reports', title: 'Phân tích', icon: <BarChartIcon /> },
+    { segment: 'integrations', title: 'Phụ đề', icon: <LayersIcon /> },
+    { segment: 'money', title: 'Kiếm tiền', icon: <MonetizationOnIcon /> },
+    { segment: 'customize', title: 'Tùy chỉnh', icon: <TuneIcon /> },
+    { segment: 'live_clip', title: 'Clip trực tuyến', icon: <VideocamIcon /> },
+    { segment: 'copyright', title: 'Bản quyền', icon: <CopyrightIcon /> },
+    { segment: 'settings', title: 'Cài đặt', icon: <SettingsIcon /> },
+];
+
+function ManagementSidebar({ sidebarWidth }) { // Nhận sidebarWidth thay vì sidebarOpen
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const handleItemClick = (segment) => {
+        navigate(`/management-profile/${segment}`);
+    };
+
+    return (
+        <Box
+            sx={{
+                width: sidebarWidth, // Sử dụng sidebarWidth
+                minWidth: sidebarWidth, // Sử dụng sidebarWidth
+                height: 'calc(100vh - 60px)',
+                position: 'fixed',
+                top: 60,
+                left: 0,
+                backgroundColor: '#fff',
+                boxShadow: '2px 0 5px rgba(0,0,0,0.1)',
+                overflowX: 'hidden',
+                transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1), min-width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                zIndex: 999,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+                willChange: 'width, min-width',
+            }}
+        >
+            <List sx={{ width: '100%' }}>
+                {NAVIGATION.map((item, index) => {
+                    if (item.kind === 'divider') {
+                        return <Divider key={index} sx={{ my: 1 }} />;
+                    }
+
+                    const isActive = location.pathname === `/management-profile/${item.segment}`;
+
+                    const renderListItem = (entry, isChild = false) => (
+                        <Tooltip
+                            key={entry.segment}
+                            title={sidebarWidth > 60 ? '' : entry.title} // Dùng sidebarWidth để quyết định hiển thị tooltip
+                            placement="right"
+                            arrow
+                        >
+                            <ListItem
+                                button
+                                onClick={() => handleItemClick(entry.segment)}
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    py: 1,
+                                    pl: isChild ? 4 : 0,
+                                    justifyContent: sidebarWidth > 60 ? 'flex-start' : 'center', // Dùng sidebarWidth
+                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    backgroundColor: isActive ? 'rgba(0, 0, 0, 0.1)' : 'transparent',
+                                }}
+                            >
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 'unset',
+                                        pl: '15px',
+                                        mr: sidebarWidth > 60 ? 1.5 : 0, // Dùng sidebarWidth
+                                        justifyContent: 'center',
+                                        transition: 'margin-right 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    }}
+                                >
+                                    {entry.icon}
+                                </ListItemIcon>
+
+                                <ListItemText
+                                    primary={entry.title}
+                                    primaryTypographyProps={{
+                                        fontSize: 14,
+                                        whiteSpace: 'nowrap',
+                                        overflow: 'hidden',
+                                    }}
+                                    sx={{
+                                        opacity: sidebarWidth > 60 ? 1 : 0, // Dùng sidebarWidth
+                                        transition: 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                        transform: sidebarWidth > 60 ? 'translateX(0)' : 'translateX(-20px)', // Dùng sidebarWidth
+                                    }}
+                                />
+                            </ListItem>
+                        </Tooltip>
+                    );
+
+                    return (
+                        <React.Fragment key={index}>
+                            {renderListItem(item)}
+                            {item.children &&
+                                item.children.map((child) => renderListItem(child, true))}
+                        </React.Fragment>
+                    );
+                })}
+            </List>
+        </Box>
+    );
+}
+
+export default ManagementSidebar;

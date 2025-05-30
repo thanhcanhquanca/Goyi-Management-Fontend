@@ -1,0 +1,215 @@
+import {AppBar, Avatar, Button, Divider, IconButton, InputBase, Paper, Toolbar, Typography} from "@mui/material";
+import Box from "@mui/material/Box";
+import DiamondIcon from '@mui/icons-material/Diamond';
+import SearchIcon from "@mui/icons-material/Search";
+import React, {useEffect, useRef, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+
+function ContentProfileOutlet() {
+    const navigate = useNavigate();
+    const [selectedTab, setSelectedTab] = useState('post');
+    const indicatorRef = useRef(null);
+
+    const [profilePicture, setProfilePicture] = useState(null); // State để lưu ảnh hồ sơ
+
+    // Lấy profilePicture từ localStorage khi component mount hoặc thay đổi
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (user && user.profilePicture) {
+            // Thêm base URL để tạo đường dẫn đầy đủ
+            const baseUrl = 'http://localhost:8080/images/';
+            setProfilePicture(baseUrl + user.profilePicture);
+        }
+    }, []); // Chạy một lần khi component mount
+
+
+    const tabRefs = {
+        post: useRef(null),
+        video: useRef(null),
+        live: useRef(null),
+    };
+
+    // Cập nhật vị trí gạch dưới mỗi khi tab thay đổi
+    useEffect(() => {
+        const currentTab = tabRefs[selectedTab]?.current;
+        const indicator = indicatorRef.current;
+        if (currentTab && indicator) {
+            const { offsetLeft, offsetWidth } = currentTab;
+            indicator.style.left = `${offsetLeft}px`;
+            indicator.style.width = `${offsetWidth}px`;
+        }
+    }, [selectedTab]);
+
+    return (
+        <>
+            <Box
+                sx={{
+                    flexGrow: 1,
+                    height: '100vh', // Chiều cao full màn hình
+                    overflowY: 'none', // Cho phép cuộn dọc
+                    border: 'none',
+                    backgroundColor: 'rgba(224,224,224,0)',
+                }}
+            >
+                <Box
+                    sx={{
+                        height:220,
+                        mb: 2,
+                        borderRadius: 3,
+                        overflow: 'hidden',
+                        marginLeft: '100px',
+                        marginRight: '100px'
+                    }}
+                >
+
+                    <img
+                        src="https://img5.thuthuatphanmem.vn/uploads/2022/01/18/anh-3d-anime-chat-luong-cao_110709658.png"
+                        alt="Ảnh bìa"
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                        }}
+                    />
+                </Box>
+
+                <Box
+                    sx={{
+                        p: 2, backgroundColor: 'rgba(224,224,224,0)', display: 'flex', alignItems: 'center', mb: 3,
+                        marginLeft: '100px',
+                        marginRight: '100px'
+                    }}>
+                    {profilePicture ? (
+                        <img
+                            src={profilePicture}   // thêm http://localhost:8080/images/
+                            alt="Profile"
+                            style={{ height: 140, width: 140, borderRadius: '50%',  objectFit: 'cover',
+                                display: 'block',border: '2px solid #DDDDDD'}}
+                        />
+                    ) : (
+                        <Avatar
+                            alt="Ảnh đại diện"
+                            src="https://via.placeholder.com/100"
+                            sx={{width: 140, height: 140, mr: 2}}>
+
+                        </Avatar>
+                    )}
+
+                    <Box>
+                        <Box sx={{display: 'flex', alignItems: 'center'}}>
+                            <Typography variant="h4" sx={{fontWeight: 'bold', color: '#000000', mb: 1}}>
+                                Ninh Thái Thần
+                            </Typography>
+                            <DiamondIcon sx={{color: '#b0c4de', ml: 1, fontSize: 24}}/>
+                        </Box>
+                        <Typography variant="body2" color="textSecondary" sx={{color: '#a0a0a0'}}>
+                            @phctapsub
+                        </Typography>
+                        <Typography variant="body2" sx={{mt: 1, color: '#a0a0a0'}}>
+                            Xin chào mình là PHC TẤP SUB...xem thêm
+                        </Typography>
+                        <Box sx={{display: 'flex', alignItems: 'center'}}>
+                            <Button sx={{
+                                backgroundColor: 'rgba(99,211,164,0.41)',
+                                color: '#050505',
+                                height: 38,
+                                width: 150,
+                                borderRadius: 6,
+                                mt: 2
+                            }}  onClick={() => navigate('/management-profile')}
+                            >Tùy Chỉnh</Button>
+
+                        </Box>
+                    </Box>
+
+
+
+                </Box>
+
+                <Box>
+                    {/* Tabs */}
+                    <Box sx={{ mb: 2, mx: '100px', position: 'relative', borderBottom: '1px solid #ccc' }}>
+                        <Box sx={{ display: 'flex', position: 'relative' }}>
+                            <Button
+                                ref={tabRefs.post}
+                                onClick={() => setSelectedTab('post')}
+                                sx={{
+                                    color: selectedTab === 'post' ? 'primary.main' : '#292929',
+                                    fontWeight: selectedTab === 'post' ? 'normal' : 'normal',
+                                    textTransform: 'none',
+                                    px: 3,
+                                }}
+                            >
+                                Bài đăng
+                            </Button>
+                            <Button
+                                ref={tabRefs.video}
+                                onClick={() => setSelectedTab('video')}
+                                sx={{
+                                    color: selectedTab === 'video' ? 'primary.main' : '#292929',
+                                    fontWeight: selectedTab === 'video' ? 'normal' : 'normal',
+                                    textTransform: 'none',
+                                    px: 3,
+                                }}
+                            >
+                                Video
+                            </Button>
+                            <Button
+                                ref={tabRefs.live}
+                                onClick={() => setSelectedTab('live')}
+                                sx={{
+                                    color: selectedTab === 'live' ? 'primary.main' : '#292929',
+                                    fontWeight: selectedTab === 'live' ? 'normal' : 'normal',
+                                    textTransform: 'none',
+                                    px: 3,
+                                }}
+                            >
+                                Video trực tiếp
+                            </Button>
+
+                            {/* Gạch dưới */}
+                            <Box
+                                ref={indicatorRef}
+                                sx={{
+                                    position: 'absolute',
+                                    bottom: 0,
+                                    height: '3px',
+                                    backgroundColor: '#1976d2',
+                                    transition: 'left 0.3s ease, width 0.3s ease',
+                                }}
+                            />
+                        </Box>
+
+                        {/* Nút tìm kiếm */}
+                        <Box sx={{ position: 'absolute', right: 0, top: 0,
+                            height: '100%', display: 'flex', alignItems: 'center'
+                            ,backgroundColor:'rgba(224,224,224,0.12)'
+                            ,borderRadius:'6px'
+                        }}>
+                            <InputBase
+                                placeholder="Tìm kiếm video của bạn"
+                                sx={{ ml: 1, flex: 1, color: '#a0a0a0' }}
+                                inputProps={{ 'aria-label': 'tìm kiếm video' }}
+                            />
+                            <IconButton color="inherit" sx={{ p: '10px' }} aria-label="search">
+                                <SearchIcon sx={{ color: '#a0a0a0' }} />
+                            </IconButton>
+                        </Box>
+                    </Box>
+
+                    {/* Nội dung tab */}
+                    <Box sx={{ mx: '100px', mt: 2 }}>
+                        {selectedTab === 'post' && <Typography>Đăng bài viết ở đây...</Typography>}
+                        {selectedTab === 'video' && <Typography>Đăng video ở đây...</Typography>}
+                        {selectedTab === 'live' && <Typography>Phát trực tiếp ở đây...</Typography>}
+                    </Box>
+                </Box>
+
+
+            </Box>
+        </>
+    );
+}
+
+export default ContentProfileOutlet
