@@ -1,0 +1,79 @@
+import React from 'react';
+import { Box, Grid, Card, CardMedia, Typography, Stack } from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
+
+function ContentHomeOutlet() {
+    const videoThumbnails = [
+        { id: 1, title: 'Anh chàng sờg trong một ngòi nhá thuể', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: '699,000 lượt xem', duration: '05:58', desc: 'Diệu nhảy gây sốt', userInfo: 'Đực Kinh, vừa đá chi 16 nhắn dán tế...', label: 'Vlog cá mòi Dreamer - 5:21' },
+        { id: 2, title: 'Anh chàng sáng tạo trò mòt ngòi nhạy', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: '2,733 lượt xem', duration: '15 phút', desc: 'Anh chàng sáng tạo', userInfo: 'Người sáng tạo, 10 dự án hoàn thành', label: 'Vlog sáng tạo - 10:15' },
+        { id: 3, title: 'Sẵn sàng ăn uống', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: '30:34', duration: '30:34', desc: 'Sẵn sàng ăn uống', userInfo: 'Ẩm thực gia, 5 năm kinh nghiệm', label: 'Ẩm thực TV - 20:30' },
+        { id: 4, title: 'Tỏi thâm chí còn không', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: '555,000 lượt xem', duration: '02:05', desc: 'Tỏi thâm chí còn không', userInfo: 'Nấu ăn gia, thử nghiệm mới', label: 'Nấu ăn Fun - 2:10' },
+        { id: 5, title: 'Cộng ty trưng tói ở ngày đền cập ngu', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: '3,000 lượt xem', duration: '11:10', desc: 'Cộng ty trưng tói', userInfo: 'Doanh nhân trẻ, 3 năm kinh doanh', label: 'Doanh nghiệp TV - 11:15' },
+        { id: 6, title: 'Thử luồng 2 giò Mộ video', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: '106,000 lượt xem', duration: '15:30', desc: 'Thử luồng 2 giò', userInfo: 'Streamer, 100 giờ phát sóng', label: 'Stream Zone - 15:35' },
+        { id: 7, title: '2025日本最新恐怖片', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: '344,000 lượt xem', duration: '11:10', desc: '2025日本最新恐怖片', userInfo: 'Đạo diễn phim, 5 bộ phim', label: 'Phim kinh dị - 11:15' },
+        { id: 8, title: 'Tro gương nồng thơn đời trọn đời', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: '2,528 lượt xem', duration: '12:12', desc: 'Tro gương nồng thơn', userInfo: 'Nhạc sĩ, 10 ca khúc', label: 'Nhạc sống - 12:15' },
+        { id: 9, title: '世界第1傭兵', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: '110 lượt xem', duration: '11:13', desc: '世界第1傭兵', userInfo: 'Chuyên gia võ thuật, 15 năm', label: 'Võ thuật TV - 11:18' },
+        { id: 10, title: 'Nhật lói chí trích điền rễ', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: '3657 lượt xem', duration: '15:30', desc: 'Nhật lói chí trích', userInfo: 'Nhà báo, 20 bài viết', label: 'Tin tức Live - 15:35' },
+        { id: 11, title: 'Phát sóng trực tiếp', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: 'cái gì đó', duration: 'cái gì đó', desc: 'Phát sóng trực tiếp', userInfo: 'Streamer, 50 giờ trực tiếp', label: 'Live Stream - 10:00' },
+        { id: 12, title: 'Nhà hàng quán phở sắn nghệo nhạy rượi', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: '60 lượt xem', duration: '5:22', desc: 'Nhà hàng quán phở', userInfo: 'Đầu bếp, 8 năm kinh nghiệm', label: 'Phở TV - 5:25' },
+        { id: 13, title: 'Thế giới điện ảnh', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: '170 lượt xem', duration: '5:24', desc: 'Thế giới điện ảnh', userInfo: 'Đạo diễn, 3 phim nổi tiếng', label: 'Cinema Live - 5:30' },
+        { id: 14, title: 'Lên sóng', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: 'cái gì đó', duration: 'cái gì đó', desc: 'Lên sóng', userInfo: 'MC, 10 năm dẫn chương trình', label: 'TV Show - 10:00' },
+        { id: 15, title: 'Điệu nhảy gây sốt 2', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: '699,000 lượt xem', duration: '05:58', desc: 'Điệu nhảy gây sốt 2', userInfo: 'Nhảy múa, 5 năm luyện tập', label: 'Dance TV - 6:00' },
+        { id: 16, title: 'Phát sóng trực tiếp', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: 'cái gì đó', duration: 'cái gì đó', desc: 'Phát sóng trực tiếp', userInfo: 'Streamer, 50 giờ trực tiếp', label: 'Live Stream - 10:00' },
+        { id: 17, title: 'Nhà hàng quán phở sắn nghệo nhạy rượi', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: '60 lượt xem', duration: '5:22', desc: 'Nhà hàng quán phở', userInfo: 'Đầu bếp, 8 năm kinh nghiệm', label: 'Phở TV - 5:25' },
+        { id: 18, title: 'Thế giới điện ảnh', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: '170 lượt xem', duration: '5:24', desc: 'Thế giới điện ảnh', userInfo: 'Đạo diễn, 3 phim nổi tiếng', label: 'Cinema Live - 5:30' },
+        { id: 19, title: 'Lên sóng', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: 'cái gì đó', duration: 'cái gì đó', desc: 'Lên sóng', userInfo: 'MC, 10 năm dẫn chương trình', label: 'TV Show - 10:00' },
+        { id: 20, title: 'Điệu nhảy gây sốt 2', image: 'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg', views: '699,000 lượt xem', duration: '05:58', desc: 'Điệu nhảy gây sốt 2', userInfo: 'Nhảy múa, 5 năm luyện tập', label: 'Dance TV - 6:00' },
+    ];
+
+    return (
+        <Box sx={{ padding: 2 }}>
+            <Grid container spacing={2}>
+                {videoThumbnails.map((video) => (
+                    <Grid item xs={12} sm={6} md={4} key={video.id}>
+                        <Card sx={{ width: '100%', position: 'relative' }}>
+                            <CardMedia
+                                component="img"
+                                sx={{
+                                    height: 200,
+                                    width: '100%',
+                                    objectFit: 'cover',
+                                }}
+                                image={video.image}
+                                alt={video.title}
+                            />
+                            <Box sx={{ p: 1 }}>
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        fontWeight: 'bold',
+                                        mb: 0.5,
+                                    }}
+                                >
+                                    {video.title}
+                                </Typography>
+                                <Typography variant="caption" color="text.secondary" sx={{ mb: 0.5 }}>
+                                    {video.views} • {video.duration}
+                                </Typography>
+                                <Typography variant="body2" sx={{ mb: 0.5 }}>
+                                    {video.desc}
+                                </Typography>
+                                <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 0.5 }}>
+                                    <PersonIcon sx={{ color: 'text.secondary', fontSize: 16 }} />
+                                    <Typography variant="caption" color="text.secondary">
+                                        {video.userInfo}
+                                    </Typography>
+                                </Stack>
+                                <Typography variant="caption" color="text.secondary">
+                                    {video.label}
+                                </Typography>
+                            </Box>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+        </Box>
+    );
+}
+
+export default ContentHomeOutlet;
