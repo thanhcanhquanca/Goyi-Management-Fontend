@@ -5,15 +5,15 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 function ContentPostOutlet() {
     const images = [
-        'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg',
+        'https://i.pinimg.com/originals/a6/00/ed/a600ed85ebfdb2893dd147e855b45988.jpg',
+        'https://thuthuatnhanh.com/wp-content/uploads/2023/10/hinh-anh-3d-dep-cute-lam-hinh-nen-dien-thoai-1.jpg',
+        'https://cdn.donmai.us/original/75/90/7590d00ce911c039c1a7bc294bc52e07.jpg',
         'https://img5.thuthuatphanmem.vn/uploads/2021/07/15/anh-3d-dep-buon_043316269.jpg',
-        'https://i.pinimg.com/originals/07/f9/df/07f9df953582c38d9d38de1f044e7b06.png',
-        'https://img5.thuthuatphanmem.vn/uploads/2021/07/15/anh-3d-dep-buon_043316269.jpg',
         'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg',
+        'https://thuthuatnhanh.com/wp-content/uploads/2023/10/hinh-anh-3d-dep-cute-lam-hinh-nen-dien-thoai-1.jpg',
+        'https://cdn.donmai.us/original/75/90/7590d00ce911c039c1a7bc294bc52e07.jpg',
         'https://i.pinimg.com/originals/07/f9/df/07f9df953582c38d9d38de1f044e7b06.png',
-        'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg',
-        'https://i.pinimg.com/originals/07/f9/df/07f9df953582c38d9d38de1f044e7b06.png',
-        'https://img5.thuthuatphanmem.vn/uploads/2021/07/15/anh-3d-dep-buon_043316269.jpg',
+        'https://cdn.donmai.us/original/8b/a7/8ba7de69b78681dc757f4fd3eca581b7.jpg',
     ];
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -30,10 +30,12 @@ function ContentPostOutlet() {
     const [openModal, setOpenModal] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const [zoomLevel, setZoomLevel] = useState(1);
+    const [zoomFocus, setZoomFocus] = useState({ x: '50%', y: '50%' }); // Default center focus
 
     const handleOpenModal = (image) => {
         setSelectedImage(image);
         setZoomLevel(1);
+        setZoomFocus({ x: '50%', y: '50%' });
         setOpenModal(true);
     };
 
@@ -41,6 +43,7 @@ function ContentPostOutlet() {
         setOpenModal(false);
         setSelectedImage(null);
         setZoomLevel(1);
+        setZoomFocus({ x: '50%', y: '50%' });
     };
 
     const handleWheel = (event) => {
@@ -48,6 +51,13 @@ function ContentPostOutlet() {
         const zoomSpeed = 0.1;
         const delta = event.deltaY > 0 ? -zoomSpeed : zoomSpeed;
         setZoomLevel((prevZoom) => Math.min(Math.max(prevZoom + delta, 1), 3));
+    };
+
+    const handleImageClick = (event) => {
+        const rect = event.currentTarget.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
+        setZoomFocus({ x: `${x}%`, y: `${y}%` });
     };
 
     const [showFullContent, setShowFullContent] = useState(false);
@@ -128,7 +138,7 @@ function ContentPostOutlet() {
                             image={image}
                             alt={`Post image ${index + 1}`}
                             onClick={() => handleOpenModal(image)}
-                            sx={{ cursor: 'pointer' }}
+                            sx={{ cursor: 'pointer' , width:'250px', height:'250px'}}
                         />
                     </Grid>
                 ))}
@@ -164,25 +174,25 @@ function ContentPostOutlet() {
                         position: 'absolute',
                         top: '50%',
                         left: '50%',
-                        transform: 'translate(-50%, -50%)',
+                        transform: `translate(-50%, -50%) scale(${zoomLevel})`, // Áp dụng chế độ thu phóng cho toàn bộ Hộp
+                        transformOrigin: `${zoomFocus.x} ${zoomFocus.y}`, // Phóng to từ điểm được nhấp
+                        transition: 'transform 0.2s ease', // Chuyển đổi thu phóng mượt mà
                         width: '80%',
                         maxWidth: 800,
                         bgcolor: 'background.paper',
                         boxShadow: 24,
                         p: 4,
-                        overflow: 'hidden', // Hide scroll bar when zooming image
+                        overflow: 'hidden',
                     }}
                 >
                     <img
                         src={selectedImage}
                         alt="Enlarged view"
                         onWheel={handleWheel}
+                        onClick={handleImageClick}
                         style={{
                             width: '100%',
                             height: 'auto',
-                            transform: `scale(${zoomLevel})`,
-                            transformOrigin: 'center center',
-                            transition: 'transform 0.2s ease',
                         }}
                     />
                 </Box>

@@ -5,15 +5,15 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 function ContentPostOutlet() {
     const images = [
-        'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg',
+        'https://i.pinimg.com/originals/a6/00/ed/a600ed85ebfdb2893dd147e855b45988.jpg',
+        'https://thuthuatnhanh.com/wp-content/uploads/2023/10/hinh-anh-3d-dep-cute-lam-hinh-nen-dien-thoai-1.jpg',
+        'https://cdn.donmai.us/original/75/90/7590d00ce911c039c1a7bc294bc52e07.jpg',
         'https://img5.thuthuatphanmem.vn/uploads/2021/07/15/anh-3d-dep-buon_043316269.jpg',
-        'https://i.pinimg.com/originals/07/f9/df/07f9df953582c38d9d38de1f044e7b06.png',
-        'https://img5.thuthuatphanmem.vn/uploads/2021/07/15/anh-3d-dep-buon_043316269.jpg',
         'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg',
+        'https://thuthuatnhanh.com/wp-content/uploads/2023/10/hinh-anh-3d-dep-cute-lam-hinh-nen-dien-thoai-1.jpg',
+        'https://cdn.donmai.us/original/75/90/7590d00ce911c039c1a7bc294bc52e07.jpg',
         'https://i.pinimg.com/originals/07/f9/df/07f9df953582c38d9d38de1f044e7b06.png',
-        'https://anhcuoiviet.vn/wp-content/uploads/2022/09/de-thuong-2-724x965.jpg',
-        'https://i.pinimg.com/originals/07/f9/df/07f9df953582c38d9d38de1f044e7b06.png',
-        'https://img5.thuthuatphanmem.vn/uploads/2021/07/15/anh-3d-dep-buon_043316269.jpg',
+        'https://cdn.donmai.us/original/8b/a7/8ba7de69b78681dc757f4fd3eca581b7.jpg',
     ];
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -61,7 +61,13 @@ function ContentPostOutlet() {
     };
 
     const [showFullContent, setShowFullContent] = useState(false);
-    const content = "Xem thêm ảnh tại na tul lư Xem thêm ảnh tại na tul l Xem thêm ảnh tại na tul lư Xem thêm ảnh tại na tul l Xem thêm ảnh tại na tul lư Xem thêm ảnh tại na tul l Xem thêm ảnh tại na tul lư Xem thêm ảnh tại na tul l Xem thêm ảnh tại na tul lư Xem thêm ảnh tại na tul l Xem thêm ảnh tại na tul lư Xem thêm ảnh tại na tul l Xem thêm ảnh tại na tul lư Xem thêm ảnh tại na tul l Xem thêm ảnh tại na tul lư Xem thêm ảnh tại na tul l";
+    const content = "Xuân Thu thiền là một phương pháp thiền định mang tinh thần hài hòa giữa trời đất, " +
+        "con người và vạn vật theo chu kỳ của tự nhiên – đặc biệt là mùa xuân và mùa thu. " +
+        "Trong triết lý Á Đông, mùa xuân tượng trưng cho sự sinh sôi, tươi mới; " +
+        "mùa thu là thời khắc lắng đọng, suy tư và buông bỏ. Xuân Thu thiền khuyến khích con người thiền định" +
+        " theo mùa – vào xuân để nuôi dưỡng năng lượng sống, vào thu để thanh lọc tâm trí. Đây " +
+        "không chỉ là một cách tu luyện tinh thần," +
+        " mà còn là nghệ thuật sống thuận theo tự nhiên, tìm lại sự cân bằng nội tâm trong nhịp điệu bốn mùa.";
     const shortContent = content.substring(0, 200) + "...";
 
     return (
@@ -138,7 +144,7 @@ function ContentPostOutlet() {
                             image={image}
                             alt={`Post image ${index + 1}`}
                             onClick={() => handleOpenModal(image)}
-                            sx={{ cursor: 'pointer' }}
+                            sx={{ cursor: 'pointer' , width:'250px', height:'250px'}}
                         />
                     </Grid>
                 ))}
@@ -174,9 +180,9 @@ function ContentPostOutlet() {
                         position: 'absolute',
                         top: '50%',
                         left: '50%',
-                        transform: `translate(-50%, -50%) scale(${zoomLevel})`, // Apply zoom to the entire Box
-                        transformOrigin: `${zoomFocus.x} ${zoomFocus.y}`, // Zoom from the clicked point
-                        transition: 'transform 0.2s ease', // Smooth zoom transition
+                        transform: `translate(-50%, -50%) scale(${zoomLevel})`, // Áp dụng chế độ thu phóng cho toàn bộ Hộp
+                        transformOrigin: `${zoomFocus.x} ${zoomFocus.y}`, // Phóng to từ điểm được nhấp
+                        transition: 'transform 0.2s ease', // Chuyển đổi thu phóng mượt mà
                         width: '80%',
                         maxWidth: 800,
                         bgcolor: 'background.paper',
